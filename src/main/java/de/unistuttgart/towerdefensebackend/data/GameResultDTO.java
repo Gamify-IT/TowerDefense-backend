@@ -55,7 +55,7 @@ public class GameResultDTO {
             value = Constants.MAX_QUESTION_COUNT,
             message = "cannot answer more than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
-    private int correctKillsCount;
+    private int correctQuestionsCount;
 
     /**
      * The number of incorrectly answered questions.
@@ -68,7 +68,7 @@ public class GameResultDTO {
             value = Constants.MAX_QUESTION_COUNT,
             message = "cannot answer more than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
-    private int wrongKillsCount;
+    private int wrongQuestionsCount;
 
     @Min(value = Constants.MIN_POINTS, message = "cannot have less than " + Constants.MIN_POINTS + " points")
     @Max(value = Constants.MAX_POINTS, message = "cannot have more than " + Constants.MAX_POINTS + " points")
@@ -107,8 +107,8 @@ public class GameResultDTO {
             final int rewards
     ) {
         this.questionCount = questionCount;
-        this.correctKillsCount = correctKillsCount;
-        this.wrongKillsCount = wrongKillsCount;
+        this.correctQuestionsCount = correctKillsCount;
+        this.wrongQuestionsCount = wrongKillsCount;
         this.points = points;
         this.correctAnsweredQuestions = correctAnsweredQuestions;
         this.wrongAnsweredQuestions = wrongAnsweredQuestions;
@@ -123,8 +123,8 @@ public class GameResultDTO {
 
         if (id != other.id) return false;
         if (questionCount != other.questionCount) return false;
-        if (correctKillsCount != other.correctKillsCount) return false;
-        if (wrongKillsCount != other.wrongKillsCount) return false;
+        if (correctQuestionsCount != other.correctQuestionsCount) return false;
+        if (wrongQuestionsCount != other.wrongQuestionsCount) return false;
         if (points != other.points) return false;
         if (!correctAnsweredQuestions.equals(other.correctAnsweredQuestions)) return false;
         if (!wrongAnsweredQuestions.equals(other.wrongAnsweredQuestions)) return false;
