@@ -8,13 +8,11 @@ import de.unistuttgart.towerdefensebackend.data.mapper.ConfigurationMapper;
 import de.unistuttgart.towerdefensebackend.data.mapper.QuestionMapper;
 import de.unistuttgart.towerdefensebackend.repositories.ConfigurationRepository;
 import de.unistuttgart.towerdefensebackend.repositories.QuestionRepository;
-
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import javax.validation.Valid;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,13 +53,13 @@ public class ConfigService {
             throw new IllegalArgumentException("id is null");
         }
         return configurationRepository
-                .findById(id)
-                .orElseThrow(() ->
-                        new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                String.format("There is no configuration with id %s.", id)
-                        )
-                );
+            .findById(id)
+            .orElseThrow(() ->
+                new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("There is no configuration with id %s.", id)
+                )
+            );
     }
 
     /**
@@ -76,7 +74,7 @@ public class ConfigService {
             throw new IllegalArgumentException("configurationDTO is null");
         }
         final Configuration savedConfiguration = configurationRepository.save(
-                configurationMapper.configurationDTOToConfiguration(configurationDTO)
+            configurationMapper.configurationDTOToConfiguration(configurationDTO)
         );
         return configurationMapper.configurationToConfigurationDTO(savedConfiguration);
     }
@@ -152,12 +150,12 @@ public class ConfigService {
         }
         final Configuration configuration = getConfiguration(id);
         final Question question = getQuestionInConfiguration(questionId, configuration)
-                .orElseThrow(() ->
-                        new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                String.format("Question with ID %s does not exist in configuration %s.", questionId, configuration)
-                        )
-                );
+            .orElseThrow(() ->
+                new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("Question with ID %s does not exist in configuration %s.", questionId, configuration)
+                )
+            );
         configuration.removeQuestion(question);
         configurationRepository.save(configuration);
         questionRepository.delete(question);
@@ -175,9 +173,9 @@ public class ConfigService {
      * @throws IllegalArgumentException if at least one of the arguments is null
      */
     public QuestionDTO updateQuestionFromConfiguration(
-            final UUID id,
-            final UUID questionId,
-            final @Valid QuestionDTO questionDTO
+        final UUID id,
+        final UUID questionId,
+        final @Valid QuestionDTO questionDTO
     ) {
         if (id == null || questionId == null || questionDTO == null) {
             throw new IllegalArgumentException("id or questionId or questionDTO is null");
@@ -185,8 +183,8 @@ public class ConfigService {
         final Configuration configuration = getConfiguration(id);
         if (getQuestionInConfiguration(questionId, configuration).isEmpty()) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    String.format("Question with ID %s does not exist in configuration %s.", questionId, configuration)
+                HttpStatus.NOT_FOUND,
+                String.format("Question with ID %s does not exist in configuration %s.", questionId, configuration)
             );
         }
         final Question question = questionMapper.questionDTOToQuestion(questionDTO);
@@ -203,13 +201,13 @@ public class ConfigService {
      */
     public UUID cloneConfiguration(final UUID id) {
         Configuration config = configurationRepository
-                .findById(id)
-                .orElseThrow(() ->
-                        new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                String.format("Configuration with id %s not found", id)
-                        )
-                );
+            .findById(id)
+            .orElseThrow(() ->
+                new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("Configuration with id %s not found", id)
+                )
+            );
         Configuration cloneConfig = config.clone();
         cloneConfig = configurationRepository.save(cloneConfig);
         return cloneConfig.getId();
@@ -225,16 +223,16 @@ public class ConfigService {
      * @throws IllegalArgumentException if at least one of the arguments is null
      */
     private Optional<Question> getQuestionInConfiguration(
-            final UUID questionId,
-            final @Valid Configuration configuration
+        final UUID questionId,
+        final @Valid Configuration configuration
     ) {
         if (questionId == null || configuration == null) {
             throw new IllegalArgumentException("questionId or configuration is null");
         }
         return configuration
-                .getQuestions()
-                .parallelStream()
-                .filter(filteredQuestion -> filteredQuestion.getId().equals(questionId))
-                .findAny();
+            .getQuestions()
+            .parallelStream()
+            .filter(filteredQuestion -> filteredQuestion.getId().equals(questionId))
+            .findAny();
     }
 }

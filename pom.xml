@@ -72,11 +72,6 @@
             <version>3.19.2</version>
         </dependency>
         <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>jwks-rsa</artifactId>
-            <version>0.21.1</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.Gamify-IT</groupId>
             <artifactId>authentification-validator</artifactId>
             <version>v1.0.0</version>

@@ -36,12 +36,12 @@ public class GameResult {
      * The total number of questions that were available.
      */
     @Min(
-            value = Constants.MIN_QUESTION_COUNT,
-            message = "cannot have less than " + Constants.MIN_QUESTION_COUNT + " questions"
+        value = Constants.MIN_QUESTION_COUNT,
+        message = "cannot have less than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
     @Max(
-            value = Constants.MAX_QUESTION_COUNT,
-            message = "cannot have more than " + Constants.MIN_QUESTION_COUNT + " questions"
+        value = Constants.MAX_QUESTION_COUNT,
+        message = "cannot have more than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
     private int questionCount;
 
@@ -49,12 +49,12 @@ public class GameResult {
      * The number of questions that were answered correctly.
      */
     @Min(
-            value = Constants.MIN_QUESTION_COUNT,
-            message = "cannot answer less than " + Constants.MIN_QUESTION_COUNT + " questions"
+        value = Constants.MIN_QUESTION_COUNT,
+        message = "cannot answer less than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
     @Max(
-            value = Constants.MAX_QUESTION_COUNT,
-            message = "cannot answer more than " + Constants.MIN_QUESTION_COUNT + " questions"
+        value = Constants.MAX_QUESTION_COUNT,
+        message = "cannot answer more than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
     private int correctAnswerCount;
 
@@ -62,12 +62,12 @@ public class GameResult {
      * The number of questions that were answered incorrectly.
      */
     @Min(
-            value = Constants.MIN_QUESTION_COUNT,
-            message = "cannot answer less than " + Constants.MIN_QUESTION_COUNT + " questions"
+        value = Constants.MIN_QUESTION_COUNT,
+        message = "cannot answer less than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
     @Max(
-            value = Constants.MAX_QUESTION_COUNT,
-            message = "cannot answer more than " + Constants.MIN_QUESTION_COUNT + " questions"
+        value = Constants.MAX_QUESTION_COUNT,
+        message = "cannot answer more than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
     private int wrongAnswerCount;
 
@@ -109,20 +109,21 @@ public class GameResult {
      */
     @NotNull(message = "playedTime cannot be null")
     private LocalDateTime playedTime;
+
     private int score;
     private int rewards;
 
     public GameResult(
-            final int questionCount,
-            final int correctKillsCount,
-            final int wrongKillsCount,
-            final int points,
-            final List<QuestionResult> correctAnsweredQuestions,
-            final List<QuestionResult> wrongAnsweredQuestions,
-            final UUID configurationAsUUID,
-            final String playerId,
-            final int score,
-            final int rewards
+        final int questionCount,
+        final int correctKillsCount,
+        final int wrongKillsCount,
+        final int points,
+        final List<QuestionResult> correctAnsweredQuestions,
+        final List<QuestionResult> wrongAnsweredQuestions,
+        final UUID configurationAsUUID,
+        final String playerId,
+        final int score,
+        final int rewards
     ) {
         this.questionCount = questionCount;
         this.correctAnswerCount = correctKillsCount;

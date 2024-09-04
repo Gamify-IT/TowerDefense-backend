@@ -1,8 +1,8 @@
 package de.unistuttgart.towerdefensebackend.controller;
 
+import de.unistuttgart.gamifyit.authentificationvalidator.JWTValidatorService;
 import de.unistuttgart.towerdefensebackend.data.GameResultDTO;
 import de.unistuttgart.towerdefensebackend.service.GameResultService;
-import de.unistuttgart.gamifyit.authentificationvalidator.JWTValidatorService;
 import io.swagger.v3.oas.annotations.Operation;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +32,8 @@ public class GameResultController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public GameResultDTO saveGameResult(
-            @CookieValue("access_token") final String accessToken,
-            @Valid @RequestBody final GameResultDTO gameResultDTO
+        @CookieValue("access_token") final String accessToken,
+        @Valid @RequestBody final GameResultDTO gameResultDTO
     ) {
         jwtValidatorService.validateTokenOrThrow(accessToken);
         final String userId = jwtValidatorService.extractUserId(accessToken);

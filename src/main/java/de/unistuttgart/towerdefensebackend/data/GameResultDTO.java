@@ -35,12 +35,12 @@ public class GameResultDTO {
      * The total number of questions that were available.
      */
     @Min(
-            value = Constants.MIN_QUESTION_COUNT,
-            message = "cannot have less than " + Constants.MIN_QUESTION_COUNT + " questions"
+        value = Constants.MIN_QUESTION_COUNT,
+        message = "cannot have less than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
     @Max(
-            value = Constants.MAX_QUESTION_COUNT,
-            message = "cannot have more than " + Constants.MIN_QUESTION_COUNT + " questions"
+        value = Constants.MAX_QUESTION_COUNT,
+        message = "cannot have more than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
     private int questionCount;
 
@@ -48,12 +48,12 @@ public class GameResultDTO {
      * The number of correctly answered questions.
      */
     @Min(
-            value = Constants.MIN_QUESTION_COUNT,
-            message = "cannot answer less than " + Constants.MIN_QUESTION_COUNT + " questions"
+        value = Constants.MIN_QUESTION_COUNT,
+        message = "cannot answer less than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
     @Max(
-            value = Constants.MAX_QUESTION_COUNT,
-            message = "cannot answer more than " + Constants.MIN_QUESTION_COUNT + " questions"
+        value = Constants.MAX_QUESTION_COUNT,
+        message = "cannot answer more than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
     private int correctQuestionsCount;
 
@@ -61,12 +61,12 @@ public class GameResultDTO {
      * The number of incorrectly answered questions.
      */
     @Min(
-            value = Constants.MIN_QUESTION_COUNT,
-            message = "cannot answer less than " + Constants.MIN_QUESTION_COUNT + " questions"
+        value = Constants.MIN_QUESTION_COUNT,
+        message = "cannot answer less than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
     @Max(
-            value = Constants.MAX_QUESTION_COUNT,
-            message = "cannot answer more than " + Constants.MIN_QUESTION_COUNT + " questions"
+        value = Constants.MAX_QUESTION_COUNT,
+        message = "cannot answer more than " + Constants.MIN_QUESTION_COUNT + " questions"
     )
     private int wrongQuestionsCount;
 
@@ -96,15 +96,15 @@ public class GameResultDTO {
     private int rewards;
 
     public GameResultDTO(
-            final int questionCount,
-            final int correctKillsCount,
-            final int wrongKillsCount,
-            final int points,
-            final List<QuestionResultDTO> correctAnsweredQuestions,
-            final List<QuestionResultDTO> wrongAnsweredQuestions,
-            final UUID configurationAsUUID,
-            final int score,
-            final int rewards
+        final int questionCount,
+        final int correctKillsCount,
+        final int wrongKillsCount,
+        final int points,
+        final List<QuestionResultDTO> correctAnsweredQuestions,
+        final List<QuestionResultDTO> wrongAnsweredQuestions,
+        final UUID configurationAsUUID,
+        final int score,
+        final int rewards
     ) {
         this.questionCount = questionCount;
         this.correctQuestionsCount = correctKillsCount;

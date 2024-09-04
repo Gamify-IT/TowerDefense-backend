@@ -1,7 +1,6 @@
 package de.unistuttgart.towerdefensebackend.errorhandling;
 
 import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;

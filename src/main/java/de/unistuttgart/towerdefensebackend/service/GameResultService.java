@@ -8,10 +8,8 @@ import de.unistuttgart.towerdefensebackend.data.QuestionResult;
 import de.unistuttgart.towerdefensebackend.data.mapper.QuestionResultMapper;
 import de.unistuttgart.towerdefensebackend.repositories.GameResultRepository;
 import feign.FeignException;
-
 import java.util.List;
 import javax.validation.Valid;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,9 +43,9 @@ public class GameResultService {
      * @throws IllegalArgumentException if at least one of the arguments is null
      */
     public void saveGameResult(
-            final @Valid GameResultDTO gameResultDTO,
-            final String userId,
-            final String accessToken
+        final @Valid GameResultDTO gameResultDTO,
+        final String userId,
+        final String accessToken
     ) {
         if (gameResultDTO == null || userId == null || accessToken == null) {
             throw new IllegalArgumentException("gameResultDTO or userId or accessToken is null");
@@ -56,25 +54,28 @@ public class GameResultService {
         try {
             resultClient.submit(accessToken, resultDTO);
             final List<QuestionResult> correctQuestions = questionResultMapper.questionResultDTOsToQuestionResults(
-                    gameResultDTO.getCorrectAnsweredQuestions()
+                gameResultDTO.getCorrectAnsweredQuestions()
             );
             final List<QuestionResult> wrongQuestions = questionResultMapper.questionResultDTOsToQuestionResults(
-                    gameResultDTO.getWrongAnsweredQuestions()
+                gameResultDTO.getWrongAnsweredQuestions()
             );
 
-            final int score = calculateResultScore(gameResultDTO.getCorrectQuestionsCount(), gameResultDTO.getQuestionCount());
+            final int score = calculateResultScore(
+                gameResultDTO.getCorrectQuestionsCount(),
+                gameResultDTO.getQuestionCount()
+            );
             final int rewards = 0;
             final GameResult result = new @Valid GameResult(
-                    gameResultDTO.getQuestionCount(),
-                    gameResultDTO.getCorrectQuestionsCount(),
-                    gameResultDTO.getWrongQuestionsCount(),
-                    gameResultDTO.getPoints(),
-                    correctQuestions,
-                    wrongQuestions,
-                    gameResultDTO.getConfigurationAsUUID(),
-                    userId,
-                    score,
-                    rewards
+                gameResultDTO.getQuestionCount(),
+                gameResultDTO.getCorrectQuestionsCount(),
+                gameResultDTO.getWrongQuestionsCount(),
+                gameResultDTO.getPoints(),
+                correctQuestions,
+                wrongQuestions,
+                gameResultDTO.getConfigurationAsUUID(),
+                userId,
+                score,
+                rewards
             );
             gameResultDTO.setScore(score);
             gameResultDTO.setRewards(rewards);
@@ -82,7 +83,7 @@ public class GameResultService {
             gameResultRepository.save(result);
         } catch (final FeignException.BadGateway badGateway) {
             final String warning =
-                    "The Overworld backend is currently not available. The result was NOT saved. Please try again later";
+                "The Overworld backend is currently not available. The result was NOT saved. Please try again later";
             log.error(warning + badGateway);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, warning);
         } catch (final FeignException.NotFound notFound) {
@@ -101,16 +102,16 @@ public class GameResultService {
      */
     private OverworldResultDTO createOverworldResult(final @Valid GameResultDTO gameResultDTO, final String userId) {
         final int resultScore = calculateResultScore(
-                gameResultDTO.getCorrectQuestionsCount(),
-                gameResultDTO.getQuestionCount()
+            gameResultDTO.getCorrectQuestionsCount(),
+            gameResultDTO.getQuestionCount()
         );
         final int rewards = 0;
         return new @Valid OverworldResultDTO(
-                "TOWER DEFENSE",
-                gameResultDTO.getConfigurationAsUUID(),
-                resultScore,
-                userId,
-                rewards
+            "TOWER DEFENSE",
+            gameResultDTO.getConfigurationAsUUID(),
+            resultScore,
+            userId,
+            rewards
         );
     }
 
@@ -125,11 +126,11 @@ public class GameResultService {
     private int calculateResultScore(final int correctAnswers, final int numberOfQuestions) {
         if (correctAnswers < 0 || numberOfQuestions < correctAnswers) {
             throw new IllegalArgumentException(
-                    String.format(
-                            "correctAnswers (%s) or numberOfQuestions (%s) is not possible",
-                            correctAnswers,
-                            numberOfQuestions
-                    )
+                String.format(
+                    "correctAnswers (%s) or numberOfQuestions (%s) is not possible",
+                    correctAnswers,
+                    numberOfQuestions
+                )
             );
         }
         return (int) ((100.0 * correctAnswers) / numberOfQuestions);

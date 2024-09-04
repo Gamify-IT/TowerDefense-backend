@@ -2,9 +2,7 @@ package de.unistuttgart.towerdefensebackend.data.mapper;
 
 import de.unistuttgart.towerdefensebackend.data.Question;
 import de.unistuttgart.towerdefensebackend.data.QuestionDTO;
-
 import java.util.Set;
-
 import org.mapstruct.Mapper;
 
 /**

@@ -58,9 +58,9 @@ public class QuestionDTO {
         if (this == other) return true;
         if (other == null) return false;
         return (
-                Objects.equals(text, other.text) &&
-                        Objects.equals(rightAnswer, other.rightAnswer) &&
-                        Objects.equals(wrongAnswers, other.wrongAnswers)
+            Objects.equals(text, other.text) &&
+            Objects.equals(rightAnswer, other.rightAnswer) &&
+            Objects.equals(wrongAnswers, other.wrongAnswers)
         );
     }
 }

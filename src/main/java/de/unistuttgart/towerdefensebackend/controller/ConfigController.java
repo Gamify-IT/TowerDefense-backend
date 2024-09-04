@@ -1,17 +1,15 @@
 package de.unistuttgart.towerdefensebackend.controller;
 
+import de.unistuttgart.gamifyit.authentificationvalidator.JWTValidatorService;
 import de.unistuttgart.towerdefensebackend.data.ConfigurationDTO;
 import de.unistuttgart.towerdefensebackend.data.QuestionDTO;
 import de.unistuttgart.towerdefensebackend.data.mapper.ConfigurationMapper;
 import de.unistuttgart.towerdefensebackend.repositories.ConfigurationRepository;
 import de.unistuttgart.towerdefensebackend.service.ConfigService;
-import de.unistuttgart.gamifyit.authentificationvalidator.JWTValidatorService;
 import io.swagger.v3.oas.annotations.Operation;
-
 import java.util.List;
 import java.util.UUID;
 import javax.validation.Valid;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -24,12 +22,13 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/configurations")
-@Import({JWTValidatorService.class})
+@Import({ JWTValidatorService.class })
 @Slf4j
 @Validated
 public class ConfigController {
 
     public static final List<String> LECTURER = List.of("lecturer");
+
     @Autowired
     private ConfigurationRepository configurationRepository;
 
@@ -53,8 +52,8 @@ public class ConfigController {
     @Operation(summary = "Get a specific configuration by its id")
     @GetMapping("/{id}")
     public ConfigurationDTO getConfiguration(
-            @CookieValue("access_token") final String accessToken,
-            @PathVariable final UUID id
+        @CookieValue("access_token") final String accessToken,
+        @PathVariable final UUID id
     ) {
         jwtValidatorService.validateTokenOrThrow(accessToken);
         log.debug("get configuration {}", id);
@@ -65,8 +64,8 @@ public class ConfigController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public ConfigurationDTO createConfiguration(
-            @CookieValue("access_token") final String accessToken,
-            @Valid @RequestBody final ConfigurationDTO configurationDTO
+        @CookieValue("access_token") final String accessToken,
+        @Valid @RequestBody final ConfigurationDTO configurationDTO
     ) {
         jwtValidatorService.validateTokenOrThrow(accessToken);
         jwtValidatorService.hasRolesOrThrow(accessToken, LECTURER);
@@ -77,9 +76,9 @@ public class ConfigController {
     @Operation(summary = "Update a configuration")
     @PutMapping("/{id}")
     public ConfigurationDTO updateConfiguration(
-            @CookieValue("access_token") final String accessToken,
-            @PathVariable final UUID id,
-            @Valid @RequestBody final ConfigurationDTO configurationDTO
+        @CookieValue("access_token") final String accessToken,
+        @PathVariable final UUID id,
+        @Valid @RequestBody final ConfigurationDTO configurationDTO
     ) {
         jwtValidatorService.validateTokenOrThrow(accessToken);
         jwtValidatorService.hasRolesOrThrow(accessToken, LECTURER);
@@ -90,8 +89,8 @@ public class ConfigController {
     @Operation(summary = "Delete a configuration")
     @DeleteMapping("/{id}")
     public ConfigurationDTO deleteConfiguration(
-            @CookieValue("access_token") final String accessToken,
-            @PathVariable final UUID id
+        @CookieValue("access_token") final String accessToken,
+        @PathVariable final UUID id
     ) {
         jwtValidatorService.validateTokenOrThrow(accessToken);
         jwtValidatorService.hasRolesOrThrow(accessToken, LECTURER);
@@ -103,9 +102,9 @@ public class ConfigController {
     @PostMapping("/{id}/questions")
     @ResponseStatus(HttpStatus.CREATED)
     public QuestionDTO addQuestionToConfiguration(
-            @CookieValue("access_token") final String accessToken,
-            @PathVariable final UUID id,
-            @Valid @RequestBody final QuestionDTO questionDTO
+        @CookieValue("access_token") final String accessToken,
+        @PathVariable final UUID id,
+        @Valid @RequestBody final QuestionDTO questionDTO
     ) {
         jwtValidatorService.validateTokenOrThrow(accessToken);
         jwtValidatorService.hasRolesOrThrow(accessToken, LECTURER);
@@ -116,9 +115,9 @@ public class ConfigController {
     @Operation(summary = "Delete a question from a configuration")
     @DeleteMapping("/{id}/questions/{questionId}")
     public QuestionDTO removeQuestionFromConfiguration(
-            @CookieValue("access_token") final String accessToken,
-            @PathVariable final UUID id,
-            @PathVariable final UUID questionId
+        @CookieValue("access_token") final String accessToken,
+        @PathVariable final UUID id,
+        @PathVariable final UUID questionId
     ) {
         jwtValidatorService.validateTokenOrThrow(accessToken);
         jwtValidatorService.hasRolesOrThrow(accessToken, LECTURER);
@@ -129,10 +128,10 @@ public class ConfigController {
     @Operation(summary = "Update a question in a configuration")
     @PutMapping("/{id}/questions/{questionId}")
     public QuestionDTO updateQuestionFromConfiguration(
-            @CookieValue("access_token") final String accessToken,
-            @PathVariable final UUID id,
-            @PathVariable final UUID questionId,
-            @Valid @RequestBody final QuestionDTO questionDTO
+        @CookieValue("access_token") final String accessToken,
+        @PathVariable final UUID id,
+        @PathVariable final UUID questionId,
+        @Valid @RequestBody final QuestionDTO questionDTO
     ) {
         jwtValidatorService.validateTokenOrThrow(accessToken);
         jwtValidatorService.hasRolesOrThrow(accessToken, LECTURER);

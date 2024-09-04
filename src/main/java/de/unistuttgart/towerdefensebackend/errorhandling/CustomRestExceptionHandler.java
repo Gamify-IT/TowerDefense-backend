@@ -2,7 +2,6 @@ package de.unistuttgart.towerdefensebackend.errorhandling;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -22,10 +21,10 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     @NonNull
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            final MethodArgumentNotValidException ex,
-            @NonNull final HttpHeaders headers,
-            @NonNull final HttpStatus status,
-            @NonNull final WebRequest request
+        final MethodArgumentNotValidException ex,
+        @NonNull final HttpHeaders headers,
+        @NonNull final HttpStatus status,
+        @NonNull final WebRequest request
     ) {
         log.info(ex.getClass().getName());
         final List<String> errors = new ArrayList<>();

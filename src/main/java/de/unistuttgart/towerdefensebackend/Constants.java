@@ -24,5 +24,4 @@ public class Constants {
     public static final long MAX_SCORE = 100;
 
     private Constants() {}
-
 }
