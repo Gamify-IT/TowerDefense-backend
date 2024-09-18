@@ -50,7 +50,6 @@ public class ConfigController {
         return configurationMapper.configurationsToConfigurationDTOs(configurationRepository.findAll());
     }
 
-    @Operation(summary = "Get a specific configuration by its id")
     @GetMapping("/{id}")
     public ConfigurationDTO getConfiguration(
             @CookieValue("access_token") final String accessToken,
@@ -59,6 +58,18 @@ public class ConfigController {
         jwtValidatorService.validateTokenOrThrow(accessToken);
         log.debug("get configuration {}", id);
         return configurationMapper.configurationToConfigurationDTO(configService.getConfiguration(id));
+    }
+
+    @GetMapping("/{id}/volume")
+    public ConfigurationDTO getAllConfiguration(
+            @CookieValue("access_token") final String accessToken,
+            @PathVariable final UUID id
+    ) {
+        jwtValidatorService.validateTokenOrThrow(accessToken);
+        log.debug("get configuration {}", id);
+        return configurationMapper.configurationToConfigurationDTO(
+                configService.getAllConfigurations(id, accessToken)
+        );
     }
 
     @Operation(summary = "Create a new configuration")
