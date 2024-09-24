@@ -44,7 +44,7 @@ public class Question {
      */
     @NotNull(message = "right answer cannot be null")
     @NotBlank(message = "right answer cannot be blank")
-    String rightAnswer;
+    String correctAnswer;
 
     /**
      * A set of wrong answers.
@@ -52,14 +52,14 @@ public class Question {
     @ElementCollection
     Set<String> wrongAnswers;
 
-    public Question(final String text, final String rightAnswer, final Set<String> wrongAnswers) {
+    public Question(final String text, final String correctAnswer, final Set<String> wrongAnswers) {
         this.text = text;
-        this.rightAnswer = rightAnswer;
+        this.correctAnswer = correctAnswer;
         this.wrongAnswers = wrongAnswers;
     }
 
     @Override
     public Question clone() {
-        return new Question(this.text, this.rightAnswer, new HashSet<>(this.wrongAnswers));
+        return new Question(this.text, this.correctAnswer, new HashSet<>(this.wrongAnswers));
     }
 }

@@ -41,16 +41,16 @@ public class QuestionDTO {
      */
     @NotNull(message = "right answer text cannot be null")
     @NotBlank(message = "right answer text cannot be blank")
-    String rightAnswer;
+    String correctAnswer;
 
     /**
      * A set of wrong answers.
      */
     Set<String> wrongAnswers;
 
-    public QuestionDTO(final String text, final String rightAnswer, final Set<String> wrongAnswers) {
+    public QuestionDTO(final String text, final String correctAnswer, final Set<String> wrongAnswers) {
         this.text = text;
-        this.rightAnswer = rightAnswer;
+        this.correctAnswer = correctAnswer;
         this.wrongAnswers = wrongAnswers;
     }
 
@@ -59,7 +59,7 @@ public class QuestionDTO {
         if (other == null) return false;
         return (
                 Objects.equals(text, other.text) &&
-                        Objects.equals(rightAnswer, other.rightAnswer) &&
+                        Objects.equals(correctAnswer, other.correctAnswer) &&
                         Objects.equals(wrongAnswers, other.wrongAnswers)
         );
     }
