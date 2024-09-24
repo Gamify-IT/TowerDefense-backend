@@ -36,6 +36,11 @@ public class ConfigurationDTO {
     @Valid
     Set<QuestionDTO> questions;
 
+    /**
+     * The volume level that is setted by the player.
+     */
+    Integer volumeLevel;
+
     public ConfigurationDTO(final Set<QuestionDTO> questions) {
         this.questions = questions;
     }

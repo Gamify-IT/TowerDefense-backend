@@ -1,9 +1,8 @@
 package de.unistuttgart.towerdefensebackend.service;
 
-import de.unistuttgart.towerdefensebackend.data.Configuration;
-import de.unistuttgart.towerdefensebackend.data.ConfigurationDTO;
-import de.unistuttgart.towerdefensebackend.data.Question;
-import de.unistuttgart.towerdefensebackend.data.QuestionDTO;
+import de.unistuttgart.gamifyit.authentificationvalidator.JWTValidatorService;
+import de.unistuttgart.towerdefensebackend.clients.OverworldClient;
+import de.unistuttgart.towerdefensebackend.data.*;
 import de.unistuttgart.towerdefensebackend.data.mapper.ConfigurationMapper;
 import de.unistuttgart.towerdefensebackend.data.mapper.QuestionMapper;
 import de.unistuttgart.towerdefensebackend.repositories.ConfigurationRepository;
@@ -42,6 +41,12 @@ public class ConfigService {
     @Autowired
     QuestionRepository questionRepository;
 
+    @Autowired
+    private OverworldClient overworldClient;
+
+    @Autowired
+    private JWTValidatorService jwtValidatorService;
+
     /**
      * Search a configuration by given id
      *
@@ -54,6 +59,43 @@ public class ConfigService {
         if (id == null) {
             throw new IllegalArgumentException("id is null");
         }
+        return configurationRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                String.format("There is no configuration with id %s.", id)
+                        )
+                );
+    }
+
+    /**
+     * Search a configuration by given id and get volume level from overworld-backend
+     *
+     * @param id the id of the configuration searching for
+     * @param accessToken the users access token
+     * @return the found configuration
+     * @throws ResponseStatusException  when configuration by configurationName could not be found
+     * @throws IllegalArgumentException if at least one of the arguments is null
+     */
+    public Configuration getAllConfigurations(final UUID id, final String accessToken) {
+        if (id == null) {
+            throw new IllegalArgumentException("id is null");
+        }
+        final String userId = jwtValidatorService.extractUserId(accessToken);
+
+        KeybindingDTO keyBindingVolumeLevel = overworldClient.getKeybindingStatistic(userId, "VOLUME_LEVEL", accessToken);
+        Integer volumeLevel = Integer.parseInt(keyBindingVolumeLevel.getKey());
+
+        Configuration config = configurationRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                String.format("There is no configuration with id %s.", id)
+                        )
+                );
+        config.setVolumeLevel(volumeLevel);
         return configurationRepository
                 .findById(id)
                 .orElseThrow(() ->
