@@ -37,7 +37,7 @@ public class ConfigurationDTO {
     Set<QuestionDTO> questions;
 
     /**
-     * The volume level that is setted by the player.
+     * The volume level that is set by the player.
      */
     Integer volumeLevel;
 

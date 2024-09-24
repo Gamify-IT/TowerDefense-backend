@@ -38,7 +38,7 @@ public class Configuration {
     Set<Question> questions;
 
     /**
-     * The volume level that is setted by the player.
+     * The volume level that is set by the player.
      */
     Integer volumeLevel;
 
