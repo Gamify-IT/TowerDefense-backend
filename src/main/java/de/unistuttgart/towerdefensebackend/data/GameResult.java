@@ -109,7 +109,7 @@ public class GameResult {
      */
     @NotNull(message = "playedTime cannot be null")
     private LocalDateTime playedTime;
-    private int score;
+    private long score;
     private int rewards;
 
     public GameResult(
@@ -121,7 +121,7 @@ public class GameResult {
             final List<QuestionResult> wrongAnsweredQuestions,
             final UUID configurationAsUUID,
             final String playerId,
-            final int score,
+            final long score,
             final int rewards
     ) {
         this.questionCount = questionCount;
