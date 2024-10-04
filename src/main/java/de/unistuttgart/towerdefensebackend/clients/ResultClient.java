@@ -17,5 +17,5 @@ public interface ResultClient {
      * @param resultDTO the player's submitted result, trimmed down to the data needed for the Overworld
      */
     @PostMapping("/submit-game-pass")
-    void submit(@CookieValue("access_token") final String accessToken, final OverworldResultDTO resultDTO);
+    void submit(final OverworldResultDTO resultDTO, @CookieValue("access_token") final String accessToken);
 }

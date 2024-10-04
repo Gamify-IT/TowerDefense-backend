@@ -54,7 +54,7 @@ public class GameResultService {
         }
         final OverworldResultDTO resultDTO = createOverworldResult(gameResultDTO, userId);
         try {
-            resultClient.submit(accessToken, resultDTO);
+            resultClient.submit(resultDTO, accessToken);
             final List<QuestionResult> correctQuestions = questionResultMapper.questionResultDTOsToQuestionResults(
                     gameResultDTO.getCorrectAnsweredQuestions()
             );
@@ -62,7 +62,7 @@ public class GameResultService {
                     gameResultDTO.getWrongAnsweredQuestions()
             );
 
-            final int score = calculateResultScore(gameResultDTO.getCorrectQuestionsCount(), gameResultDTO.getQuestionCount());
+            final long score = calculateResultScore(gameResultDTO.getCorrectQuestionsCount(), gameResultDTO.getQuestionCount());
             final int rewards = 0;
             final GameResult result = new @Valid GameResult(
                     gameResultDTO.getQuestionCount(),
@@ -100,13 +100,13 @@ public class GameResultService {
      * @return OverworldResultDTO
      */
     private OverworldResultDTO createOverworldResult(final @Valid GameResultDTO gameResultDTO, final String userId) {
-        final int resultScore = calculateResultScore(
+        final long resultScore = calculateResultScore(
                 gameResultDTO.getCorrectQuestionsCount(),
                 gameResultDTO.getQuestionCount()
         );
         final int rewards = 0;
         return new @Valid OverworldResultDTO(
-                "TOWER DEFENSE",
+                "TOWERDEFENSE",
                 gameResultDTO.getConfigurationAsUUID(),
                 resultScore,
                 userId,
@@ -122,7 +122,7 @@ public class GameResultService {
      * @return score as int in per cent
      * @throws IllegalArgumentException if correctAnswers < 0 || numberOfQuestions < correctAnswers
      */
-    private int calculateResultScore(final int correctAnswers, final int numberOfQuestions) {
+    private long calculateResultScore(final int correctAnswers, final int numberOfQuestions) {
         if (correctAnswers < 0 || numberOfQuestions < correctAnswers) {
             throw new IllegalArgumentException(
                     String.format(
@@ -132,7 +132,7 @@ public class GameResultService {
                     )
             );
         }
-        return (int) ((100.0 * correctAnswers) / numberOfQuestions);
+        return (long) ((100.0 * correctAnswers) / numberOfQuestions);
     }
 
     /**
