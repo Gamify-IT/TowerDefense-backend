@@ -36,6 +36,8 @@ public class GameResultService {
     @Autowired
     QuestionResultMapper questionResultMapper;
 
+    private int hundredScoreCount = 0;
+
     /**
      * Casts a GameResultDTO to GameResult and saves it in the database
      *
@@ -63,7 +65,7 @@ public class GameResultService {
             );
 
             final long score = calculateResultScore(gameResultDTO.getCorrectQuestionsCount(), gameResultDTO.getQuestionCount());
-            final int rewards = 0;
+            final int rewards = calculateRewards(score);
             final GameResult result = new @Valid GameResult(
                     gameResultDTO.getQuestionCount(),
                     gameResultDTO.getCorrectQuestionsCount(),
@@ -104,7 +106,7 @@ public class GameResultService {
                 gameResultDTO.getCorrectQuestionsCount(),
                 gameResultDTO.getQuestionCount()
         );
-        final int rewards = 0;
+        final int rewards = calculateRewards(resultScore);
         return new @Valid OverworldResultDTO(
                 "TOWERDEFENSE",
                 gameResultDTO.getConfigurationAsUUID(),
@@ -136,12 +138,22 @@ public class GameResultService {
     }
 
     /**
-     * TODO
-     *
-     * @param resultScore
-     * @return
+     * Calculates the player rewards based on the result score achieved in the minigame.
+     * Note that after successfully completing the game more than three times, the player rewards will decrease.
+     * @param resultScore result score of the minigame
+     * @return rewards for the minigame session
      */
-    private int calculateRewards(final int resultScore) {
-        return 0;
+    private int calculateRewards(final long resultScore) {
+        if (resultScore < 0) {
+            throw new IllegalArgumentException("Result score cannot be less than zero");
+        }
+        if (resultScore == 100 && hundredScoreCount < 3) {
+            hundredScoreCount++;
+            return 10;
+        }
+        else if (resultScore == 100) {
+            return 5;
+        }
+        return (int) resultScore / 10;
     }
 }
