@@ -8,9 +8,7 @@ import de.unistuttgart.towerdefensebackend.data.mapper.QuestionMapper;
 import de.unistuttgart.towerdefensebackend.repositories.ConfigurationRepository;
 import de.unistuttgart.towerdefensebackend.repositories.QuestionRepository;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import javax.validation.Valid;
 
@@ -72,7 +70,7 @@ public class ConfigService {
     /**
      * Search a configuration by given id and get volume level from overworld-backend
      *
-     * @param id the id of the configuration searching for
+     * @param id          the id of the configuration searching for
      * @param accessToken the users access token
      * @return the found configuration
      * @throws ResponseStatusException  when configuration by configurationName could not be found
@@ -85,7 +83,17 @@ public class ConfigService {
         final String userId = jwtValidatorService.extractUserId(accessToken);
 
         KeybindingDTO keyBindingVolumeLevel = overworldClient.getKeybindingStatistic(userId, "VOLUME_LEVEL", accessToken);
-        Integer volumeLevel = Integer.parseInt(keyBindingVolumeLevel.getKey());
+        Integer volumeLevel;
+        if (keyBindingVolumeLevel.getKey() == null || keyBindingVolumeLevel.getKey().isEmpty()) {
+            volumeLevel = 0;
+        }
+        else {
+            try {
+                volumeLevel = Integer.parseInt(keyBindingVolumeLevel.getKey());
+            } catch (NumberFormatException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid volume level format.");
+            }
+        }
 
         Configuration config = configurationRepository
                 .findById(id)
